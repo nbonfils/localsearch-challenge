@@ -1,6 +1,11 @@
+/**
+ * Places is the page displaying the different places infos.
+ */
 import React from 'react';
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Box } from '@material-ui/core';
+// Components
 import PlaceCard from './PlaceCard';
 
 const useStyles = makeStyles({

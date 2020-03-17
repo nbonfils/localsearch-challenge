@@ -1,6 +1,10 @@
+/**
+ * Welcome is the root page of the app.
+ */
 import React from 'react';
 // React Router
 import { Link as RouterLink } from 'react-router-dom';
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container, Box, Button, Typography,
