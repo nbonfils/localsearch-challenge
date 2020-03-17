@@ -1,0 +1,9 @@
+# VSCode specific
+.vscode
+
+# Dependency directories
+*/node_modules
+
+# Temporary folders
+tmp/
+temp/
