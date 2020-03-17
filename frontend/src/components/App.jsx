@@ -5,14 +5,14 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
 // Components
 import Welcome from './Welcome';
-import Place from './Place';
+import Places from './Places';
 
 const App = () => (
   <Router>
     <CssBaseline />
     <Switch>
       <Route path="/:placeId">
-        <Place />
+        <Places />
       </Route>
       <Route path="/">
         <Welcome />

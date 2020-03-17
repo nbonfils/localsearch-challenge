@@ -1,28 +1,30 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import useFetch from 'react-fetch-hook';
 import { useParams } from 'react-router-dom';
 import {
-  CircularProgress, Typography, Card, CardContent, List, ListItem, ListItemText,
+  CircularProgress, Typography, Card, CardContent, List, ListItem, ListItemText, Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const WEEKDAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    minWidth: 300,
   },
   addr: {
     marginBottom: '1.2rem',
   },
+  listItemSubText: {
+    display: 'block',
+  },
 });
 
-const Place = () => {
+const PlaceCard = () => {
   const classes = useStyles();
   const { placeId } = useParams();
   const { isLoading, data } = useFetch(`http://localhost:3000/places/${placeId}`);
 
-  if (isLoading) return <CircularProgress />;
+  if (isLoading) return <Box mt={6}><CircularProgress /></Box>;
 
   if (!data) return <Typography>Not Found</Typography>;
 
@@ -58,10 +60,11 @@ const Place = () => {
   const openingHoursItems = openingHours.map((entry) => {
     const { day, hours } = entry;
 
-    const hoursText = hours.map((hoursRange) => {
+    const hoursText = hours.map((hoursRange, index) => {
       if (hoursRange.type === 'OPEN') {
         return (
-          <Typography component="p">
+          // eslint-disable-next-line react/no-array-index-key
+          <Typography className={classes.listItemSubText} key={index} component="span">
             {hoursRange.start}
             -
             {hoursRange.end}
@@ -69,11 +72,11 @@ const Place = () => {
         );
       }
 
-      return <Typography component="p">Closed</Typography>;
+      return <Typography className={classes.listItemSubText} component="span">Closed</Typography>;
     });
 
     return (
-      <ListItem>
+      <ListItem key={day}>
         <ListItemText primary={day} secondary={<>{hoursText}</>} />
       </ListItem>
     );
@@ -99,4 +102,4 @@ const Place = () => {
   );
 };
 
-export default Place;
+export default PlaceCard;
