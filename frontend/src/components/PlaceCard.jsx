@@ -13,6 +13,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+const WEEKDAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
 const useStyles = makeStyles({
   root: {
     minWidth: 300,
@@ -42,10 +44,19 @@ const PlaceCard = () => {
   // Get the data we want to display via destructuring
   const { displayed_what, displayed_where, opening_hours } = data;
 
+  // Add the missing days with the type "CLOSED"
+  const openingHoursWithMissingDays = WEEKDAYS.map((day) => {
+    if (day in opening_hours.days) {
+      return { day, hours: opening_hours.days[day] };
+    }
+    return { day, hours: [{ type: 'CLOSED' }] };
+  });
+
   // Reduce the opening hours in order to obtain a array with the days aggregated
   // if the hours are the same
-  const openingHours = Object.entries(opening_hours.days).reduce((acc, entry) => {
-    const [day, hours] = entry;
+  const openingHours = openingHoursWithMissingDays.reduce((acc, entry) => {
+    const day = entry.day.charAt(0).toUpperCase() + entry.day.slice(1);
+    const { hours } = entry;
 
     // When the accumulator is empty, just push the first day and opening hours
     if (acc.length <= 0) {
@@ -99,7 +110,7 @@ const PlaceCard = () => {
 
     return (
       <ListItem key={day}>
-        <ListItemText primary={day} secondary={<>{hoursText}</>} />
+        <ListItemText primary={day.charAt(0).toUpperCase() + day.slice(1)} secondary={<>{hoursText}</>} />
       </ListItem>
     );
   });
